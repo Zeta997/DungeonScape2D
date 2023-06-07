@@ -7,7 +7,9 @@ public class Player : MonoBehaviour
     #region Components
     Rigidbody2D _playerRB;
     Animator _playerAN;
+    Animation _playerANIM;
     SpriteRenderer _playerSprite;
+
     #endregion
 
     #region Variables
@@ -22,20 +24,42 @@ public class Player : MonoBehaviour
     {
         _playerRB = GetComponent<Rigidbody2D>();
         _playerAN = GetComponentInChildren<Animator>();
+        _playerANIM = GetComponentInChildren<Animation>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
     {
+        //Attack();
         Movement();
         CollisionFloor();
+    }
+    void Attack()
+    {
+        if (Input.GetMouseButtonDown(0))
+        {
+            if(_playerANIM.IsPlaying("hit"))
+                _playerAN.SetTrigger("Attack");
+            
+            
+        }
+
     }
 
     void Movement()
     {
         float _movementX = Input.GetAxisRaw("Horizontal");
         //movemos el personaje 
-        _playerRB.velocity = new Vector2(_movementX*velocity, _playerRB.velocity.y);
+        if (!_playerANIM.isPlaying && Input.GetMouseButtonDown(0))
+        {
+            _playerAN.SetTrigger("Attack");
+            
+
+        }else 
+        {
+            _playerRB.velocity = new Vector2(_movementX*velocity, _playerRB.velocity.y);
+        }
+            
         //miramos qué tecla se pulsa pra voltear el sprite hacia una dirección u otra
         if (_movementX < 0)
         {
@@ -59,6 +83,7 @@ public class Player : MonoBehaviour
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, impulse);
             _jumpAvaliable = false;
         }
+        //comprobamos si puede saltar o no
         _playerAN.SetBool("Jump", _jumpAvaliable);
     }
 
@@ -70,5 +95,10 @@ public class Player : MonoBehaviour
             if (hit.collider.gameObject.layer == 6) { _jumpAvaliable = true; }
             else { _jumpAvaliable = false; }
         }
+    }
+
+    IEnumerator TimeToMove()
+    {
+        yield return new WaitForSeconds(1.0F);
     }
 }
