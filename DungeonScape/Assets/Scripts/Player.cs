@@ -6,17 +6,23 @@ public class Player : MonoBehaviour
 {
     #region Components
     Rigidbody2D _playerRB;
+    Animator _playerAN;
+    SpriteRenderer _playerSprite;
     #endregion
 
     #region Variables
-    float velocity = 3.0f;
-    float impulse = 3.0F;
-    bool _jumpAvaliable = false;
+    [Header("variables")]
+    [SerializeField]bool _jumpAvaliable = false;
+    [SerializeField] float velocity = 3.0f;
+    [SerializeField] float impulse = 0.5F;
+    
     #endregion
     // Update is called once per frame
     void Start()
     {
         _playerRB = GetComponent<Rigidbody2D>();
+        _playerAN = GetComponentInChildren<Animator>();
+        _playerSprite = GetComponentInChildren<SpriteRenderer>();
     }
 
     void Update()
@@ -28,22 +34,41 @@ public class Player : MonoBehaviour
     void Movement()
     {
         float _movementX = Input.GetAxisRaw("Horizontal");
-
+        //movemos el personaje 
         _playerRB.velocity = new Vector2(_movementX*velocity, _playerRB.velocity.y);
-        if (_jumpAvaliable)
+        //miramos qué tecla se pulsa pra voltear el sprite hacia una dirección u otra
+        if (_movementX < 0)
         {
-            _playerRB.AddForce(Vector2.up*impulse, ForceMode2D.Impulse);
+            _playerSprite.flipX = true;
+            _playerAN.SetInteger("Movement", -(int)_movementX);
         }
+        else if(_movementX >0)
+        {
+            _playerSprite.flipX = false;
+            _playerAN.SetInteger("Movement", (int)_movementX);
+        }
+        else
+        {
+            _playerAN.SetInteger("Movement", (int)_movementX);
+        }
+       
+        //comprobamos si se puede saltar
+        if (_jumpAvaliable && Input.GetKeyDown(KeyCode.Space))
+        {
+            
+            _playerRB.velocity = new Vector2(_playerRB.velocity.x, impulse);
+            _jumpAvaliable = false;
+        }
+        _playerAN.SetBool("Jump", _jumpAvaliable);
     }
 
     void CollisionFloor()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.8F);
-
-        if (hit.collider.name == "Floor") { _jumpAvaliable = true; }
-        else { _jumpAvaliable = false; }
-        
-
-        
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.7F, 1<<6);
+        if (hit.collider != null)
+        {
+            if (hit.collider.gameObject.layer == 6) { _jumpAvaliable = true; }
+            else { _jumpAvaliable = false; }
+        }
     }
 }
