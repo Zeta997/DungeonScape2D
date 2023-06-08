@@ -49,16 +49,8 @@ public class Player : MonoBehaviour
     void Movement()
     {
         float _movementX = Input.GetAxisRaw("Horizontal");
-        //movemos el personaje 
-        if (!_playerANIM.isPlaying && Input.GetMouseButtonDown(0))
-        {
-            _playerAN.SetTrigger("Attack");
-            
-
-        }else 
-        {
-            _playerRB.velocity = new Vector2(_movementX*velocity, _playerRB.velocity.y);
-        }
+        //movemos el personaje
+        _playerRB.velocity = new Vector2(_movementX*velocity, _playerRB.velocity.y);
             
         //miramos qué tecla se pulsa pra voltear el sprite hacia una dirección u otra
         if (_movementX < 0)
