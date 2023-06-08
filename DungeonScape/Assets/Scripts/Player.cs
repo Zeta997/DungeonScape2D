@@ -6,9 +6,10 @@ public class Player : MonoBehaviour
 {
     #region Components
     Rigidbody2D _playerRB;
-    Animator _playerAN;
+    Animator _playerAN, _swordAttack;
     Animation _playerANIM;
     SpriteRenderer _playerSprite;
+    
 
     #endregion
 
@@ -26,11 +27,12 @@ public class Player : MonoBehaviour
         _playerAN = GetComponentInChildren<Animator>();
         _playerANIM = GetComponentInChildren<Animation>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
+        _swordAttack = transform.GetChild(1).GetComponent<Animator>();
     }
 
     void Update()
     {
-        //Attack();
+        Attack();
         Movement();
         CollisionFloor();
     }
@@ -38,10 +40,12 @@ public class Player : MonoBehaviour
     {
         if (Input.GetMouseButtonDown(0))
         {
-            if(_playerANIM.IsPlaying("hit"))
+            if (!_playerANIM.IsPlaying("hit"))
+            {
                 _playerAN.SetTrigger("Attack");
-            
-            
+                _swordAttack.SetTrigger("EffectAttack");
+            }
+        
         }
 
     }

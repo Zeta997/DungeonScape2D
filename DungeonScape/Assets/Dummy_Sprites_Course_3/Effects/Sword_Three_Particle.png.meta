@@ -143,10 +143,10 @@ TextureImporter:
       name: Sword_Three_Particle_0
       rect:
         serializedVersion: 2
-        x: 92
-        y: 184
-        width: 412
-        height: 325
+        x: 0
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -164,10 +164,10 @@ TextureImporter:
       name: Sword_Three_Particle_1
       rect:
         serializedVersion: 2
-        x: 524
-        y: 196
-        width: 488
-        height: 313
+        x: 512
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -185,10 +185,10 @@ TextureImporter:
       name: Sword_Three_Particle_2
       rect:
         serializedVersion: 2
-        x: 1256
-        y: 524
-        width: 280
-        height: 408
+        x: 1024
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -206,10 +206,10 @@ TextureImporter:
       name: Sword_Three_Particle_3
       rect:
         serializedVersion: 2
-        x: 1720
-        y: 592
-        width: 328
-        height: 420
+        x: 1536
+        y: 512
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -227,10 +227,10 @@ TextureImporter:
       name: Sword_Three_Particle_4
       rect:
         serializedVersion: 2
-        x: 1024
-        y: 92
-        width: 328
-        height: 412
+        x: 0
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -248,10 +248,10 @@ TextureImporter:
       name: Sword_Three_Particle_5
       rect:
         serializedVersion: 2
-        x: 1536
-        y: 16
-        width: 284
-        height: 416
+        x: 512
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -269,10 +269,10 @@ TextureImporter:
       name: Sword_Three_Particle_6
       rect:
         serializedVersion: 2
-        x: 798
-        y: 560
-        width: 219
-        height: 294
+        x: 1024
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -290,10 +290,10 @@ TextureImporter:
       name: Sword_Three_Particle_7
       rect:
         serializedVersion: 2
-        x: 296
-        y: 550
-        width: 147
-        height: 160
+        x: 1536
+        y: 0
+        width: 512
+        height: 512
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
