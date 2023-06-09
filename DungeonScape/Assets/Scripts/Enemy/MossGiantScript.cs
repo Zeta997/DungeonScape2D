@@ -30,22 +30,17 @@ public class MossGiantScript : Enemy
 
         //avanced attack
     }
-    void CheckingAnimations()
-    {
-        
-
-    }
 
     void MovementEnemy()
     {
-        if (transform.position.x== _pointA.position.x)
+        if (transform.position== _pointA.position)
         {
             
             _enemyMossGianFlip.flipX = false;
             _currenttarget = _pointB.position;
             _EnemyIdle.SetTrigger("Idle");
         }
-        else if (transform.position.x == _pointB.position.x)
+        else if (transform.position == _pointB.position)
         {
             
             _enemyMossGianFlip.flipX = true;

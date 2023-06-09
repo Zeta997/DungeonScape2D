@@ -7,7 +7,6 @@ public class Player : MonoBehaviour
     #region Components
     Rigidbody2D _playerRB;
     Animator _playerAN, _swordAttack;
-    Animation _playerANIM;
     SpriteRenderer _playerSprite, _swordAttackSprite;
     
 
@@ -25,7 +24,6 @@ public class Player : MonoBehaviour
     {
         _playerRB = GetComponent<Rigidbody2D>();
         _playerAN = GetComponentInChildren<Animator>();
-        _playerANIM = GetComponentInChildren<Animation>();
         _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _swordAttack = transform.GetChild(1).GetComponent<Animator>();
         _swordAttackSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
@@ -33,21 +31,19 @@ public class Player : MonoBehaviour
 
     void Update()
     {
+        CollisionFloor();
         Attack();
         Movement();
-        CollisionFloor();
+        
     }
     void Attack()
     {
         if (Input.GetMouseButtonDown(0))
-        {
-            if (!_playerANIM.IsPlaying("hit"))
-            {
-                _playerAN.SetTrigger("Attack");
-                _swordAttack.SetTrigger("EffectAttack");
-            }
-        
+        {   
+            _playerAN.SetTrigger("Attack");
+            _swordAttack.SetTrigger("EffectAttack");  
         }
+        
 
     }
 
@@ -84,15 +80,22 @@ public class Player : MonoBehaviour
         }
         //comprobamos si puede saltar o no
         _playerAN.SetBool("Jump", _jumpAvaliable);
+        Debug.Log($"Estado de la variable _jumpAvaliable={_jumpAvaliable}");
     }
 
     void CollisionFloor()
     {
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 0.7F, 1<<6);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down,0.7F, 1<<6);
+        Debug.DrawRay(transform.position, Vector2.down*0.7F,Color.green);
         if (hit.collider != null)
         {
+            Debug.Log(hit.collider.name);
             if (hit.collider.gameObject.layer == 6) { _jumpAvaliable = true; }
-            else { _jumpAvaliable = false; }
+            
+        }
+        else
+        {
+            _jumpAvaliable = false;
         }
     }
 
