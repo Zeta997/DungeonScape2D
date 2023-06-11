@@ -80,7 +80,7 @@ public class Player : MonoBehaviour
         }
         //comprobamos si puede saltar o no
         _playerAN.SetBool("Jump", _jumpAvaliable);
-        Debug.Log($"Estado de la variable _jumpAvaliable={_jumpAvaliable}");
+        //Debug.Log($"Estado de la variable _jumpAvaliable={_jumpAvaliable}");
     }
 
     void CollisionFloor()
@@ -89,7 +89,7 @@ public class Player : MonoBehaviour
         Debug.DrawRay(transform.position, Vector2.down*0.7F,Color.green);
         if (hit.collider != null)
         {
-            Debug.Log(hit.collider.name);
+            //Debug.Log(hit.collider.name);
             if (hit.collider.gameObject.layer == 6) { _jumpAvaliable = true; }
             
         }
