@@ -7,8 +7,9 @@ public class Player : MonoBehaviour
     #region Components
     Rigidbody2D _playerRB;
     Animator _playerAN, _swordAttack;
-    SpriteRenderer _playerSprite, _swordAttackSprite;
-    
+    SpriteRenderer  _swordAttackSprite;
+    [SerializeField]Transform _playerSprite;
+
 
     #endregion
 
@@ -24,7 +25,6 @@ public class Player : MonoBehaviour
     {
         _playerRB = GetComponent<Rigidbody2D>();
         _playerAN = GetComponentInChildren<Animator>();
-        _playerSprite = GetComponentInChildren<SpriteRenderer>();
         _swordAttack = transform.GetChild(1).GetComponent<Animator>();
         _swordAttackSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
@@ -56,13 +56,13 @@ public class Player : MonoBehaviour
         //miramos qué tecla se pulsa pra voltear el sprite hacia una dirección u otra
         if (_movementX < 0)
         {
-            _playerSprite.flipX = true;
+            _playerSprite.transform.rotation = Quaternion.Euler(0, 180.0F, 0);
             _swordAttackSprite.flipX = true;
             _playerAN.SetInteger("Movement", -(int)_movementX);
         }
         else if(_movementX >0)
         {
-            _playerSprite.flipX = false;
+            _playerSprite.transform.rotation = Quaternion.Euler(0, 0, 0);
             _swordAttackSprite.flipX = false;
             _playerAN.SetInteger("Movement", (int)_movementX);
         }

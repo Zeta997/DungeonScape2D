@@ -10,9 +10,11 @@ public class Skeleton : Enemy, IDamageable
         base.Start();
         Health = base.health;
     }
+    
 
     public void Damage()
     {
+        Debug.Log("Dañó al enemigo");
         _isHit = true;
         _enemyAN.SetTrigger("Hit");
         _enemyAN.SetBool("IsCombat", true);

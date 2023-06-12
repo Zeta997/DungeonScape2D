@@ -10,7 +10,7 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected int gems;
     [SerializeField] protected bool _isHit;
-
+    int distanceToPlayer;
     #endregion
 
     #region Components
@@ -20,6 +20,7 @@ public abstract class Enemy : MonoBehaviour
     protected Vector2 _currentTarget;
     protected SpriteRenderer _spriteEnemy;
     protected Animator _enemyAN;
+    protected Vector2 _directionLook;
     #endregion
     public virtual void Start()
     {
@@ -33,47 +34,48 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
+
+        _directionLook = _playerTransform.localPosition - transform.localPosition;
+
+        if (distanceToPlayer <= 2 || _isHit) { _enemyAN.SetBool("IsCombat", true); }
+        if (distanceToPlayer >= 3) { _isHit = false; _enemyAN.SetBool("IsCombat", false);}
+
+        distanceToPlayer = (int) Vector2.Distance(transform.position,_playerTransform.position);
+        LookAt();
+
         if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !_enemyAN.GetBool("IsCombat"))
         {
             return;
-        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Hit") && _enemyAN.GetBool("IsCombat"))
         {
             return;
-        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("IdleCombat"))
+
+        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("IdleCombat") && distanceToPlayer<=2)
         {
             return;
-        }
-        else
-        {
-            if (DistanceToPlayer() <= 2 || _isHit) { _enemyAN.SetBool("IsCombat", true); }
-            if (DistanceToPlayer() >= 3) { _isHit = false; _enemyAN.SetBool("IsCombat", false);}
-            
         }
         MovementEnemy();
-        //DistanceToPlayer();
-        //if (DistanceToPlayer() <= 2 || _isHit) { _enemyAN.SetBool("IsCombat", true); }
-        //if(DistanceToPlayer() > 2) { Debug.Log("Modo combate OFF"); _isHit = false; _enemyAN.SetBool("IsCombat", false); }
-    }
-    
-    public int DistanceToPlayer()
-    {
-        Vector2 distanceVector = _playerTransform.position - transform.position;
-        int result =(int)Mathf.Abs(Mathf.Sqrt(Mathf.Pow(distanceVector.x, 2) + Mathf.Pow(distanceVector.y, 2)));
-        return result;
     }
 
+    public virtual void LookAt()
+    {
+        _directionLook =_playerTransform.localPosition - transform.localPosition;
+        if (_enemyAN.GetBool("IsCombat") && _directionLook.x < 0) _spriteEnemy.flipX = true;
+        
+        else if (_enemyAN.GetBool("IsCombat") && _directionLook.x > 0) _spriteEnemy.flipX = false;
+        
+    }
+   
     public virtual void MovementEnemy()
     {
         if (transform.position == _pointA.position)
         {
-
             _spriteEnemy.flipX = false;
             _currentTarget = _pointB.position;
             _enemyAN.SetTrigger("Idle");
         }
         else if (transform.position == _pointB.position)
         {
-
             _spriteEnemy.flipX = true;
             _currentTarget = _pointA.position;
             _enemyAN.SetTrigger("Idle");
