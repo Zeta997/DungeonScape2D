@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AttackPlayer : MonoBehaviour
@@ -15,18 +14,17 @@ public class AttackPlayer : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         IDamageable _enemyHit = collision.GetComponent<IDamageable>();
-        
-           
+
         if (collision != null)
         {
             StartCoroutine(CoolDown());
-            if (_canDamage) { _enemyHit.Damage();  _canDamage = false;}
+            if (_canDamage) { _enemyHit.Damage(); _canDamage = false; }
         }
     }
 
     IEnumerator CoolDown()
     {
-        
+
         yield return new WaitForSeconds(0.5F);
         _canDamage = true;
     }

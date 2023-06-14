@@ -31,10 +31,10 @@ namespace UnityEditor.Tilemaps
             Prefab = m_Prefabs[index];
             base.Paint(grid, brushTarget, position);
         }
-        
+
         private static float GetPerlinValue(Vector3Int position, float scale, float offset)
         {
-            return Mathf.PerlinNoise((position.x + offset)*scale, (position.y + offset)*scale);
+            return Mathf.PerlinNoise((position.x + offset) * scale, (position.y + offset) * scale);
         }
     }
 
@@ -47,7 +47,7 @@ namespace UnityEditor.Tilemaps
         private PrefabRandomBrush prefabBrush { get { return target as PrefabRandomBrush; } }
 
         private SerializedProperty m_Prefabs;
-        
+
         protected override void OnEnable()
         {
             base.OnEnable();

@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
+﻿using System.Collections.Generic;
 using UnityEditorInternal;
-using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace UnityEditor
 {
@@ -285,7 +285,7 @@ namespace UnityEditor
             SceneView.RepaintAll();
 
             SaveInstanceTileAsset();
-        
+
             if (overrideTile.m_InstanceTile)
             {
                 overrideTile.Override();

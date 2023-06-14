@@ -7,7 +7,7 @@ namespace UnityEditor.Tilemaps
     /// Use this as an example to create brushes which have extra visualization features when painting onto a Tilemap.
     /// </summary>
     [CustomGridBrush(true, false, false, "Coordinate Brush")]
-    public class CoordinateBrush : GridBrush 
+    public class CoordinateBrush : GridBrush
     {
     }
 
@@ -31,7 +31,8 @@ namespace UnityEditor.Tilemaps
             base.OnPaintSceneGUI(grid, brushTarget, position, tool, executing);
 
             var labelText = "Pos: " + position.position;
-            if (position.size.x > 1 || position.size.y > 1) {
+            if (position.size.x > 1 || position.size.y > 1)
+            {
                 labelText += " Size: " + position.size;
             }
 

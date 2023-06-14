@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 namespace UnityEditor.Tilemaps
-{ 
+{
     /// <summary>
     /// This base class for PrefabBrushes that contains common functionality
     /// </summary>
@@ -15,7 +15,7 @@ namespace UnityEditor.Tilemaps
         /// GameObject to instantiating
         /// </summary>
         protected GameObject Prefab = null;
-        
+
         protected static Transform GetObjectInCell(GridLayout grid, Transform parent, Vector3Int position)
         {
             var childCount = parent.childCount;
@@ -36,7 +36,7 @@ namespace UnityEditor.Tilemaps
             {
                 return;
             }
-                
+
             var erased = GetObjectInCell(grid, brushTarget.transform, position);
             if (erased != null)
             {
@@ -49,7 +49,7 @@ namespace UnityEditor.Tilemaps
             // Do not allow editing palettes
             if (brushTarget.layer == 31 || brushTarget == null)
                 return;
-            
+
             var tileObject = GetObjectInCell(grid, brushTarget.transform, position);
             if (tileObject)
             {
@@ -65,8 +65,8 @@ namespace UnityEditor.Tilemaps
             }
         }
     }
-    
-    public class BasePrefabBrushEditor :  GridBrushEditor
+
+    public class BasePrefabBrushEditor : GridBrushEditor
     {
         private SerializedProperty m_Anchor;
         protected SerializedObject m_SerializedObject;

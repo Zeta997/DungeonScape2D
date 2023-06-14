@@ -1,5 +1,5 @@
+using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Enemy : MonoBehaviour
@@ -10,13 +10,15 @@ public abstract class Enemy : MonoBehaviour
     [SerializeField] protected int speed;
     [SerializeField] protected int gems;
     [SerializeField] protected bool _isHit;
-    int distanceToPlayer;
+    protected double distanceToPlayer;
+    [SerializeField] protected double _distanciaLimit;
     #endregion
 
     #region Components
     [Header("Componentes")]
     [SerializeField] protected Transform _playerTransform;
     [SerializeField] protected Transform _pointA, _pointB;
+    protected Transform _spriteRotation;
     protected Vector2 _currentTarget;
     protected SpriteRenderer _spriteEnemy;
     protected Animator _enemyAN;
@@ -26,6 +28,7 @@ public abstract class Enemy : MonoBehaviour
     {
         _spriteEnemy = GetComponentInChildren<SpriteRenderer>();
         _enemyAN = GetComponentInChildren<Animator>();
+        _spriteRotation = GetComponent<Transform>();
     }
     public virtual void Attack()
     {
@@ -34,53 +37,82 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void Update()
     {
-
-        _directionLook = _playerTransform.localPosition - transform.localPosition;
-
-        if (distanceToPlayer <= 2 || _isHit) { _enemyAN.SetBool("IsCombat", true); }
-        if (distanceToPlayer >= 3) { _isHit = false; _enemyAN.SetBool("IsCombat", false);}
-
-        distanceToPlayer = (int) Vector2.Distance(transform.position,_playerTransform.position);
+        DistanceToPlayer();
         LookAt();
-
-        if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Idle") && !_enemyAN.GetBool("IsCombat"))
-        {
-            return;
-        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Hit") && _enemyAN.GetBool("IsCombat"))
-        {
-            return;
-
-        }else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("IdleCombat") && distanceToPlayer<=2)
+        if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
         {
             return;
         }
-        MovementEnemy();
+        else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+        {
+            return;
+        }
+        else if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("IdleCombat"))
+        {
+            return;
+        }
+
+        if (!_enemyAN.GetBool("IsCombat")) MovementEnemy();
+        
+    }
+
+    public virtual void DistanceToPlayer()
+    {
+        distanceToPlayer = Math.Round(Vector2.Distance(transform.position, _playerTransform.position), 1);
+
+        if (distanceToPlayer <= _distanciaLimit)
+        {
+            _enemyAN.SetBool("IsCombat", true);
+        }
+        else if (distanceToPlayer >= _distanciaLimit)
+        {
+            _enemyAN.SetBool("IsCombat", false);
+        }
     }
 
     public virtual void LookAt()
     {
-        _directionLook =_playerTransform.localPosition - transform.localPosition;
-        if (_enemyAN.GetBool("IsCombat") && _directionLook.x < 0) _spriteEnemy.flipX = true;
         
-        else if (_enemyAN.GetBool("IsCombat") && _directionLook.x > 0) _spriteEnemy.flipX = false;
+        _directionLook = _playerTransform.localPosition - transform.localPosition;
+
+        if (_enemyAN.GetBool("IsCombat"))
+        {
+            if (_spriteRotation.rotation.y == 0 && _directionLook.x < 0.1) { _spriteEnemy.flipX = true;  }
+            else if (_spriteRotation.rotation.y == 0 && _directionLook.x > 0.1) { _spriteEnemy.flipX = false;} 
+
+            if (_spriteRotation.rotation.y == 1 && _directionLook.x > 0.1) { _spriteEnemy.flipX = true;  }
+            else if (_spriteRotation.rotation.y == 1 && _directionLook.x < 0.1) { _spriteEnemy.flipX = false; }
+        }
+
+        if (!_enemyAN.GetBool("IsCombat")) 
+        {
+            if (_spriteRotation.rotation.y == 1) _spriteEnemy.flipX = false;
+            else if (_spriteRotation.rotation.y == 0) _spriteEnemy.flipX = false;
+        }
         
     }
-   
+
     public virtual void MovementEnemy()
     {
         if (transform.position == _pointA.position)
         {
-            _spriteEnemy.flipX = false;
+            _spriteRotation.rotation = Quaternion.Euler(0, 0, 0);
             _currentTarget = _pointB.position;
             _enemyAN.SetTrigger("Idle");
         }
         else if (transform.position == _pointB.position)
         {
-            _spriteEnemy.flipX = true;
+            _spriteRotation.rotation = Quaternion.Euler(0, 180, 0);
             _currentTarget = _pointA.position;
             _enemyAN.SetTrigger("Idle");
         }
         transform.position = Vector2.MoveTowards(transform.position, _currentTarget, speed * Time.deltaTime);
 
+    }
+
+    public IEnumerator TimeToResetAnimation()
+    {
+        yield return new WaitForSeconds(1.0F);
+        _isHit = false;
     }
 }

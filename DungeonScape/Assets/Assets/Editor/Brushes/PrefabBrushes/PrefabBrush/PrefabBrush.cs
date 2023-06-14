@@ -24,11 +24,11 @@ namespace UnityEditor.Tilemaps
         /// <param name="grid">Grid used for layout.</param>
         /// <param name="brushTarget">Target of the paint operation. By default the currently selected GameObject.</param>
         /// <param name="position">The coordinates of the cell to paint data to.</param>
-        
+
         public override void Paint(GridLayout grid, GameObject brushTarget, Vector3Int position)
         {
-            
-           
+
+
             Prefab = m_Prefab;
             var tileObject = GetObjectInCell(grid, brushTarget.transform, position);
             if (tileObject == null || tileObject.name != m_Prefab.name)

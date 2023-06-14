@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Skeleton : Enemy, IDamageable
@@ -10,7 +8,22 @@ public class Skeleton : Enemy, IDamageable
         base.Start();
         Health = base.health;
     }
-    
+
+    public override void DistanceToPlayer()
+    {
+        base.DistanceToPlayer();
+
+        if (_isHit)
+        {
+            _enemyAN.SetTrigger("Attack");
+            StartCoroutine(TimeToResetAnimation());
+        }
+        else
+        {
+            _enemyAN.ResetTrigger("Attack");
+        }
+    }
+
 
     public void Damage()
     {
@@ -19,7 +32,10 @@ public class Skeleton : Enemy, IDamageable
         _enemyAN.SetTrigger("Hit");
         _enemyAN.SetBool("IsCombat", true);
         Health -= 1;
-        if (Health<1) Destroy(this.gameObject);
-
+        Debug.Log(Health);
+        if (Health < 1) Destroy(this.gameObject);
     }
+
+    
+   
 }
