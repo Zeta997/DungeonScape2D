@@ -1,7 +1,11 @@
 using UnityEngine;
 public class Spider : Enemy, IDamageable
 {
+    #region variables
     public int Health { get; set; }
+    public GameObject acid;
+    #endregion
+
     public override void Start()
     {
         base.Start();
@@ -24,5 +28,16 @@ public class Spider : Enemy, IDamageable
             _enemyAN.SetBool("IsCombat", true);
         }
     }
-    public void Damage() { }
+    public void Damage()
+    {
+        Health -= 1;
+        Debug.Log($"{gameObject.name} fue dañado");
+    }
+
+
+    public override void Attack()
+    {
+        base.Attack();
+        Instantiate(acid, transform.position, Quaternion.identity);
+    }
 }

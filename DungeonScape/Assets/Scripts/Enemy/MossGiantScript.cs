@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 public class MossGiantScript : Enemy, IDamageable
 {
     public int Health { get; set; }
@@ -47,6 +48,29 @@ public class MossGiantScript : Enemy, IDamageable
     public void Damage()
     {
         Debug.Log(gameObject.name);
-        _enemyAN.SetTrigger("Hit");
+       
+
+        
+        //if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
+        //{
+        //    return;
+        //}
+        if (Health==0)
+        {
+            Debug.Log("Estoy a 0");
+            speed = 0;
+            _enemyAN.SetTrigger("Dead");
+            StartCoroutine(TimeToDestroy());
+        }
+        else
+        { _enemyAN.SetTrigger("Hit");
+            Health--;
+        }
+    }
+
+    IEnumerator TimeToDestroy()
+    {
+        yield return new WaitForSeconds(2.0F);
+        Destroy(this.gameObject);
     }
 }

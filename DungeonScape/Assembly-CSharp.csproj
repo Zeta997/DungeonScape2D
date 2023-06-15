@@ -63,6 +63,8 @@
     <Compile Include="Assets\Scripts\Enemy\Skeleton.cs" />
     <Compile Include="Assets\Scripts\Enemy\MossGiantScript.cs" />
     <Compile Include="Assets\Scripts\IDamageable.cs" />
+    <Compile Include="Assets\Scripts\Enemy\SpiderEvent.cs" />
+    <Compile Include="Assets\Scripts\Enemy\AcidEffect.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

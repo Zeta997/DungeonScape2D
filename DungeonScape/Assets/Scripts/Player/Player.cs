@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IDamageable
 {
     #region Components
     Rigidbody2D _playerRB;
@@ -16,7 +16,7 @@ public class Player : MonoBehaviour
     [SerializeField] bool _jumpAvaliable = false;
     [SerializeField] float velocity = 3.0f;
     [SerializeField] float impulse = 0.5F;
-
+    public int Health { get; set; }
     #endregion
     // Update is called once per frame
     void Start()
@@ -97,4 +97,8 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void Damage()
+    {
+        Debug.Log($"El {gameObject.name} fue herido");
+    }
 }

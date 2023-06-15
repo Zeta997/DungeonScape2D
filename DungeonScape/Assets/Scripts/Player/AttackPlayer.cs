@@ -13,10 +13,11 @@ public class AttackPlayer : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        IDamageable _enemyHit = collision.GetComponent<IDamageable>();
+        
 
         if (collision != null)
-        {
+        {   
+            IDamageable _enemyHit = collision.GetComponent<IDamageable>();
             StartCoroutine(CoolDown());
             if (_canDamage) { _enemyHit.Damage(); _canDamage = false; }
         }
