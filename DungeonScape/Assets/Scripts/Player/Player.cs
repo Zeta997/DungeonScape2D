@@ -3,12 +3,11 @@ using UnityEngine;
 public class Player : MonoBehaviour, IDamageable
 {
     #region Components
+    [Header("Componentes")]
+    [SerializeField] Transform _playerSprite;
     Rigidbody2D _playerRB;
     Animator _playerAN, _swordAttack;
     SpriteRenderer _swordAttackSprite;
-    [SerializeField] Transform _playerSprite;
-
-
     #endregion
 
     #region Variables
@@ -16,9 +15,10 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] bool _jumpAvaliable = false;
     [SerializeField] float velocity = 3.0f;
     [SerializeField] float impulse = 0.5F;
+    public int Diamondcount = 0;
     public int Health { get; set; }
     #endregion
-    // Update is called once per frame
+
     void Start()
     {
         _playerRB = GetComponent<Rigidbody2D>();
@@ -32,26 +32,22 @@ public class Player : MonoBehaviour, IDamageable
         CollisionFloor();
         Attack();
         Movement();
-
     }
     void Attack()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && _jumpAvaliable)
         {
             _playerAN.SetTrigger("Attack");
-            _swordAttack.SetTrigger("EffectAttack");
+            //_swordAttack.SetTrigger("EffectAttack");
         }
-
-
     }
 
     void Movement()
     {
         float _movementX = Input.GetAxisRaw("Horizontal");
-        //movemos el personaje
+
         _playerRB.velocity = new Vector2(_movementX * velocity, _playerRB.velocity.y);
 
-        //miramos qué tecla se pulsa pra voltear el sprite hacia una dirección u otra
         if (_movementX < 0)
         {
             _playerSprite.transform.rotation = Quaternion.Euler(0, 180.0F, 0);
@@ -69,16 +65,14 @@ public class Player : MonoBehaviour, IDamageable
             _playerAN.SetInteger("Movement", (int)_movementX);
         }
 
-        //comprobamos si se puede saltar
         if (_jumpAvaliable && Input.GetKeyDown(KeyCode.Space))
         {
 
             _playerRB.velocity = new Vector2(_playerRB.velocity.x, impulse);
             _jumpAvaliable = false;
         }
-        //comprobamos si puede saltar o no
         _playerAN.SetBool("Jump", _jumpAvaliable);
-        //Debug.Log($"Estado de la variable _jumpAvaliable={_jumpAvaliable}");
+
     }
 
     void CollisionFloor()
@@ -99,6 +93,7 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        Debug.Log($"El {gameObject.name} fue herido");
+        //damage to player
     }
+
 }

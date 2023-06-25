@@ -1,5 +1,5 @@
-using UnityEngine;
 using System.Collections;
+using UnityEngine;
 public class MossGiantScript : Enemy, IDamageable
 {
     public int Health { get; set; }
@@ -22,15 +22,18 @@ public class MossGiantScript : Enemy, IDamageable
             }
             else if (_directionLook.x > 0)
             {
-                _currentTarget = _pointB.position;               
+                _currentTarget = _pointB.position;
             }
         }
-        
+
     }
 
     public override void LookAt()
     {
         base.LookAt();
+
+        if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Attack")) return;
+
         if (_directionLook.x > -3.5 && _directionLook.x < 3.5)
         {
             if (_directionLook.x < 0)
@@ -41,29 +44,23 @@ public class MossGiantScript : Enemy, IDamageable
             {
                 _spriteRotation.rotation = Quaternion.Euler(0, 0, 0);
             }
-            
+
         }
 
     }
     public void Damage()
     {
-        Debug.Log(gameObject.name);
-       
 
-        
-        //if (_enemyAN.GetCurrentAnimatorStateInfo(0).IsName("Dead"))
-        //{
-        //    return;
-        //}
-        if (Health==0)
+        if (Health == 0)
         {
-            Debug.Log("Estoy a 0");
             speed = 0;
             _enemyAN.SetTrigger("Dead");
+            _getColliderToDesactivate.enabled = false;
             StartCoroutine(TimeToDestroy());
         }
         else
-        { _enemyAN.SetTrigger("Hit");
+        {
+            _enemyAN.SetTrigger("Hit");
             Health--;
         }
     }

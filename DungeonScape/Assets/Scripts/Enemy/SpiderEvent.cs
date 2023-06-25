@@ -1,14 +1,12 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class SpiderEvent : MonoBehaviour
 {
     private Spider _spider;
 
-     void Start()
+    void Start()
     {
-        _spider = transform.parent.GetComponent<Spider>();   
+        _spider = transform.parent.GetComponent<Spider>();
     }
     public void Fire()
     {

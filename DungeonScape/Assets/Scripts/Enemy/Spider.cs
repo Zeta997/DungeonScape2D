@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 public class Spider : Enemy, IDamageable
 {
@@ -30,8 +31,17 @@ public class Spider : Enemy, IDamageable
     }
     public void Damage()
     {
-        Health -= 1;
-        Debug.Log($"{gameObject.name} fue dañado");
+        if (Health == 0)
+        {
+            _enemyAN.SetTrigger("Dead");
+            _getColliderToDesactivate.enabled = false;
+            StartCoroutine(TimeToDestroy());
+        }
+        else
+        {
+            Health--;
+            _enemyAN.SetTrigger("Hit");
+        }
     }
 
 
@@ -39,5 +49,11 @@ public class Spider : Enemy, IDamageable
     {
         base.Attack();
         Instantiate(acid, transform.position, Quaternion.identity);
+    }
+
+    IEnumerator TimeToDestroy()
+    {
+        yield return new WaitForSeconds(2.0F);
+        Destroy(this.gameObject);
     }
 }

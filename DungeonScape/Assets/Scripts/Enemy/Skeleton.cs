@@ -1,7 +1,9 @@
+using System.Collections;
 using UnityEngine;
 
 public class Skeleton : Enemy, IDamageable
 {
+
     public int Health { get; set; }
     public override void Start()
     {
@@ -16,7 +18,7 @@ public class Skeleton : Enemy, IDamageable
         if (_isHit)
         {
             _enemyAN.SetTrigger("Attack");
-            StartCoroutine(TimeToResetAnimation());
+            StartCoroutine(TimeToResetAnimation());// no estoy seguro de que esto sea muy funcional 24/06/23
         }
         else
         {
@@ -27,15 +29,35 @@ public class Skeleton : Enemy, IDamageable
 
     public void Damage()
     {
-        Debug.Log("Dañó al enemigo");
         _isHit = true;
-        _enemyAN.SetTrigger("Hit");
+
         _enemyAN.SetBool("IsCombat", true);
-        Health -= 1;
-        Debug.Log(Health);
-        if (Health < 1) Destroy(this.gameObject);
+        if (Health == 0)
+        {
+            speed = 0;
+            _enemyAN.SetTrigger("Dead");
+            _getColliderToDesactivate.enabled = false;
+            GemsRecolect();
+            StartCoroutine(TimeToDestroy());
+        }
+        else
+        {
+            Health--;
+            _enemyAN.SetTrigger("Hit");
+        }
     }
 
-    
-   
+    IEnumerator TimeToDestroy()
+    {
+        yield return new WaitForSeconds(2.0F);
+        Destroy(this.gameObject);
+    }
+
+    void GemsRecolect()
+    {
+        for(int i=1; i<=gems; i++)
+        {
+            Instantiate(_gems, transform.position, Quaternion.identity);
+        }
+    }
 }

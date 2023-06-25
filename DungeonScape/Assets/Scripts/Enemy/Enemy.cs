@@ -8,7 +8,7 @@ public abstract class Enemy : MonoBehaviour
     [Header("variables Enemy")]
     [SerializeField] protected int health;
     [SerializeField] protected int speed;
-    [SerializeField] protected int gems;
+    protected int gems=3;
     [SerializeField] protected bool _isHit;
     protected double distanceToPlayer;
     [SerializeField] protected double _distanciaLimit;
@@ -18,6 +18,8 @@ public abstract class Enemy : MonoBehaviour
     [Header("Componentes")]
     [SerializeField] protected Transform _playerTransform;
     [SerializeField] protected Transform _pointA, _pointB;
+    [SerializeField] protected GameObject _gems;
+    protected BoxCollider2D _getColliderToDesactivate;
     protected Transform _spriteRotation;
     protected Vector2 _currentTarget;
     protected SpriteRenderer _spriteEnemy;
@@ -26,6 +28,7 @@ public abstract class Enemy : MonoBehaviour
     #endregion
     public virtual void Start()
     {
+        _getColliderToDesactivate = GetComponent<BoxCollider2D>();
         _spriteEnemy = GetComponentInChildren<SpriteRenderer>();
         _enemyAN = GetComponentInChildren<Animator>();
         _spriteRotation = GetComponent<Transform>();
@@ -53,7 +56,7 @@ public abstract class Enemy : MonoBehaviour
         }
 
         if (!_enemyAN.GetBool("IsCombat")) MovementEnemy();
-        
+
     }
 
     public virtual void DistanceToPlayer()
@@ -72,24 +75,24 @@ public abstract class Enemy : MonoBehaviour
 
     public virtual void LookAt()
     {
-        
+
         _directionLook = _playerTransform.localPosition - transform.localPosition;
 
         if (_enemyAN.GetBool("IsCombat"))
         {
-            if (_spriteRotation.rotation.y == 0 && _directionLook.x < 0.1) { _spriteEnemy.flipX = true;  }
-            else if (_spriteRotation.rotation.y == 0 && _directionLook.x > 0.1) { _spriteEnemy.flipX = false;} 
+            if (_spriteRotation.rotation.y == 0 && _directionLook.x < 0.1) { _spriteEnemy.flipX = true; }
+            else if (_spriteRotation.rotation.y == 0 && _directionLook.x > 0.1) { _spriteEnemy.flipX = false; }
 
-            if (_spriteRotation.rotation.y == 1 && _directionLook.x > 0.1) { _spriteEnemy.flipX = true;  }
+            if (_spriteRotation.rotation.y == 1 && _directionLook.x > 0.1) { _spriteEnemy.flipX = true; }
             else if (_spriteRotation.rotation.y == 1 && _directionLook.x < 0.1) { _spriteEnemy.flipX = false; }
         }
 
-        if (!_enemyAN.GetBool("IsCombat")) 
+        if (!_enemyAN.GetBool("IsCombat"))
         {
             if (_spriteRotation.rotation.y == 1) _spriteEnemy.flipX = false;
             else if (_spriteRotation.rotation.y == 0) _spriteEnemy.flipX = false;
         }
-        
+
     }
 
     public virtual void MovementEnemy()
