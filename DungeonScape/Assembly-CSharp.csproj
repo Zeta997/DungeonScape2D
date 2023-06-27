@@ -65,10 +65,11 @@
     <Compile Include="Assets\Scripts\Enemy\Spider.cs" />
     <Compile Include="Assets\Scripts\Enemy\Enemy.cs" />
     <Compile Include="Assets\Scripts\Enemy\Skeleton.cs" />
+    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
     <Compile Include="Assets\Scripts\Enemy\MossGiantScript.cs" />
     <Compile Include="Assets\Scripts\Diamon\ScriptDiamon.cs" />
     <Compile Include="Assets\Scripts\IDamageable.cs" />
-    <Compile Include="Assets\Scripts\UI\UIManager.cs" />
+    <Compile Include="Assets\Scripts\GameManager\GameManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

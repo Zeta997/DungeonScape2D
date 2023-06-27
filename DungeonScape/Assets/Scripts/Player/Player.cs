@@ -29,6 +29,7 @@ public class Player : MonoBehaviour, IDamageable
 
     void Update()
     {
+        GameManager.Instance.GemsCOunt(Diamondcount);
         CollisionFloor();
         Attack();
         Movement();
