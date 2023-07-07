@@ -6,8 +6,9 @@ public class Player : MonoBehaviour, IDamageable
     [Header("Componentes")]
     [SerializeField] Transform _playerSprite;
     Rigidbody2D _playerRB;
-    Animator _playerAN, _swordAttack;
+    Animator _playerAN;
     SpriteRenderer _swordAttackSprite;
+    BoxCollider2D _playerCollider;
     #endregion
 
     #region Variables
@@ -16,14 +17,17 @@ public class Player : MonoBehaviour, IDamageable
     [SerializeField] float velocity = 3.0f;
     [SerializeField] float impulse = 0.5F;
     public int Diamondcount = 0;
+    public int enemyDamage;
+    public bool _playerDead = false;
     public int Health { get; set; }
     #endregion
 
     void Start()
     {
+        Health = 4;   
+        _playerCollider = GetComponent<BoxCollider2D>();
         _playerRB = GetComponent<Rigidbody2D>();
         _playerAN = GetComponentInChildren<Animator>();
-        _swordAttack = transform.GetChild(1).GetComponent<Animator>();
         _swordAttackSprite = transform.GetChild(1).GetComponent<SpriteRenderer>();
     }
 
@@ -36,6 +40,7 @@ public class Player : MonoBehaviour, IDamageable
     }
     void Attack()
     {
+        if (_playerAN.GetCurrentAnimatorStateInfo(0).IsName("Hit")) { return; }
         if (Input.GetMouseButtonDown(0) && _jumpAvaliable)
         {
             _playerAN.SetTrigger("Attack");
@@ -94,7 +99,15 @@ public class Player : MonoBehaviour, IDamageable
 
     public void Damage()
     {
-        //damage to player
+        Health -= enemyDamage;
+        UIManager.Instance.UpdateLives(Health);
+        _playerAN.SetTrigger("Hit");
+        if (Health==0)
+        {
+            _playerAN.SetTrigger("Dead");
+            _playerDead = true;
+            velocity = 0;
+        }
     }
 
 }

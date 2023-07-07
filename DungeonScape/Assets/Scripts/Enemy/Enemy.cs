@@ -6,12 +6,14 @@ public abstract class Enemy : MonoBehaviour
 {
     #region variables
     [Header("variables Enemy")]
+    public int strongHitEnemy;
     [SerializeField] protected int health;
     [SerializeField] protected int speed;
     protected int gems=3;
     [SerializeField] protected bool _isHit;
     protected double distanceToPlayer;
     [SerializeField] protected double _distanciaLimit;
+    public Player player;
     #endregion
 
     #region Components
@@ -35,7 +37,7 @@ public abstract class Enemy : MonoBehaviour
     }
     public virtual void Attack()
     {
-        //base attack
+
     }
 
     public virtual void Update()

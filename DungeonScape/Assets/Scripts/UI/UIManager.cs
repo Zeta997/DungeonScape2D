@@ -20,6 +20,7 @@ public class UIManager : MonoBehaviour
     }
     #region
     [Header("Components")]
+    public Image[] LifeBar;
     public Text GemsCount;
     public Transform _ImageSlection;
     public Transform[] _ButtonsItems;
@@ -27,6 +28,15 @@ public class UIManager : MonoBehaviour
     public void CountGems(int gemsCount)
     {
         GemsCount.text = $"{gemsCount}";
+    }
+
+    public void UpdateLives(int countLifes)
+    {
+        for(int i=0; i<= countLifes; i++)
+        {
+            if(i== countLifes)
+             LifeBar[i].enabled = false;
+        }
     }
 
     private void Awake()

@@ -70,4 +70,5 @@ public class MossGiantScript : Enemy, IDamageable
         yield return new WaitForSeconds(2.0F);
         Destroy(this.gameObject);
     }
+
 }

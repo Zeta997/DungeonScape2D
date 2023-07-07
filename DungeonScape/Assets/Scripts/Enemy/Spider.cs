@@ -39,8 +39,11 @@ public class Spider : Enemy, IDamageable
         }
         else
         {
-            Health--;
-            _enemyAN.SetTrigger("Hit");
+            if (!player._playerDead)
+            {
+                _enemyAN.SetTrigger("Hit");
+                Health--;
+            }
         }
     }
 

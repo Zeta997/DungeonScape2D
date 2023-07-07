@@ -70,6 +70,7 @@
     <Compile Include="Assets\Scripts\Diamon\ScriptDiamon.cs" />
     <Compile Include="Assets\Scripts\IDamageable.cs" />
     <Compile Include="Assets\Scripts\GameManager\GameManager.cs" />
+    <Compile Include="Assets\Scripts\Enemy\HitBoxEnemy.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

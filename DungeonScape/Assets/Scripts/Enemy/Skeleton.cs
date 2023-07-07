@@ -30,7 +30,6 @@ public class Skeleton : Enemy, IDamageable
     public void Damage()
     {
         _isHit = true;
-
         _enemyAN.SetBool("IsCombat", true);
         if (Health == 0)
         {
@@ -41,9 +40,9 @@ public class Skeleton : Enemy, IDamageable
             StartCoroutine(TimeToDestroy());
         }
         else
-        {
-            Health--;
+        {    
             _enemyAN.SetTrigger("Hit");
+            Health--;
         }
     }
 
@@ -60,4 +59,5 @@ public class Skeleton : Enemy, IDamageable
             Instantiate(_gems, transform.position, Quaternion.identity);
         }
     }
+
 }
